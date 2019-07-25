@@ -12,11 +12,9 @@
 					if(empty($_GET["password_2"])){$passwordErr="Password confirmation is required";
 					if(levenshtein($password1,$password2)!=0){
 							$password2Err1= "2 pass ko giống nhau";
-							
-								}}
+						}
+					}
 					else {$password2 = test_input($_GET["password_2"]);}
-					
-					
 				}
 				function test_input($data){
 					$data = trim($data);
@@ -28,34 +26,42 @@
 		<h2> Đăng ký</h2>
 		<form method="get" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
 		E-mail: <input type = "email" name = "email" value = "Your E-mail"> 
-		
 		<span class = "error" > <?php   echo $emailErr;?></span>
-		
 		<br><br>
 		Password: <input type = "password" name = "password_1" value = "Password"> 
 		<span class = "error" > <?php   echo $password1Err;?></span>
 		<br><br>
 		Password confirmation: <input type = "password" name = "password_2" value="Password" > 
-		<span class = "error" > <?php   echo $password2Err; echo $password2Err1;
-			?></span>
+		<span class = "error" > <?php   echo $password2Err; echo $password2Err1;?></span>
 		<br><br>
 		<input type="submit" value = "Sign in"><br><br>
 		<?php
 			
 				
-				echo"<h2>Show</h2>";
 			
 			if(levenshtein($password1,$password2)!=0){
 				return;
 			}
 			else{
-				echo $email ;
-				echo "<br>";
-				echo $password1;
-				echo "<br>";
-				echo $password2;}
+				
+				$filename = 'test.txt';
+			$file = fopen( $filename, "a" );
 			
+			if (is_writable($filename)) {
+			if (!$file= fopen($filename, 'a')) {
+				echo "Cannot open file ($filename)";
+				exit;
+				}
+				
 			
+			fwrite($file,$email);fwrite($file," ");fwrite($file,$password1);fwrite($file,"\r\n");
+ 
+			fclose($file);
+			} 
+			else {
+				echo "The file $filename is not writable";
+				}
+			}
 		?>
 		
 		
